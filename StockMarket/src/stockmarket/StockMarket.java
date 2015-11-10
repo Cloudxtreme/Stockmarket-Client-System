@@ -13,39 +13,34 @@ import java.io.*;
  */
 public class StockMarket {
 
-    static PrintWriter out;
-    static BufferedReader in;
+    static Socket echoSocket;
     
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        new Form().setVisible(true);
+       //%new Form().setVisible(true);
 
-       String hostName = "192.168.0.189";
-        int portNumber = 5000;
-
+        String hostName = "192.168.0.189";
+        int portNumber = 5000;       
+        
         try {
-            Socket echoSocket = new Socket(hostName, portNumber);
-            PrintWriter out =
-                new PrintWriter(echoSocket.getOutputStream(), true);
-    BufferedReader in =
-        new BufferedReader(
-            new InputStreamReader(echoSocket.getInputStream()));
+            echoSocket = new Socket(hostName, portNumber);
+            SendMessage sendMessage = new SendMessage(echoSocket);
+            ReceiveMessage receiveMessage = new ReceiveMessage(echoSocket);
+              
     BufferedReader stdIn =
         new BufferedReader(
             new InputStreamReader(System.in));
-            
-        String output;
-        out.println("HELO");
-        System.out.println(in.readLine());
+           
+    sendMessage.sendMessage("HELO");
+    receiveMessage.receiveMessage();
+        
         }
 catch (IOException ex)
 {
     System.out.println(ex);
 }
-        
     }
 }
-
