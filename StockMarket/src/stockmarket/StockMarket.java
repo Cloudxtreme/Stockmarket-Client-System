@@ -1,46 +1,50 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package stockmarket;
 
 import java.net.*;
 import java.io.*;
-/**
- *
- * @author Tom
- */
+
 public class StockMarket {
 
+    //Create Socket instance
     static Socket echoSocket;
-    
-    /**
-     * @param args the command line arguments
-     */
+  
     public static void main(String[] args) {
-        // TODO code application logic here
-       //%new Form().setVisible(true);
+       //Opens new form UI
+       new Form().setVisible(true);
 
-        String hostName = "192.168.0.189";
+       //Variables for Socket Constructor
+        String hostName = "192.168.0.212";
         int portNumber = 5000;       
         
+        //Create new Socket, SendMessage and ReceiveMessage objects
         try {
             echoSocket = new Socket(hostName, portNumber);
             SendMessage sendMessage = new SendMessage(echoSocket);
             ReceiveMessage receiveMessage = new ReceiveMessage(echoSocket);
               
-    BufferedReader stdIn =
-        new BufferedReader(
-            new InputStreamReader(System.in));
+    //BufferedReader stdIn =
+        //new BufferedReader(
+            //new InputStreamReader(System.in));
            
-    sendMessage.sendMessage("HELO");
+    sendMessage.sendMessage("REGI");
     receiveMessage.receiveMessage();
         
         }
-catch (IOException ex)
-{
-    System.out.println(ex);
-}
+        catch (IOException ex)
+        {
+            System.out.println(ex);
+        }
+        
+        //Close the connection
+        try{
+            echoSocket.close();
+        }
+        catch (Exception ex)
+        {
+            if (echoSocket.isClosed() == true)
+                System.out.println("Socket already closed");
+            else
+                System.out.println(ex);
+        }
     }
 }
