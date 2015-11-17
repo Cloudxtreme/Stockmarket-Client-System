@@ -12,7 +12,7 @@ import java.io.*;
  *
  * @author Computing
  */
-public class ReceiveMessage {
+public class ReceiveMessage extends Thread {
     private Socket socket;
     private BufferedReader in = null;
     
@@ -38,5 +38,12 @@ public class ReceiveMessage {
         {
             System.out.println(ex);
         }
-    }            
+    }
+    
+    @Override
+    public void run(){
+        while(socket.isConnected() == true){
+        receiveMessage();
+        }
+    }
 }
