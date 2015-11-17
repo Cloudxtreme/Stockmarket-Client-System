@@ -13,7 +13,7 @@ import java.io.*;
  */
 
 
-public class SendMessage {   
+public class SendMessage extends Thread {   
     
     private Socket socket;
     private PrintWriter out = null;
@@ -32,5 +32,12 @@ public class SendMessage {
     public void sendMessage(String message)
     {
         out.println(message);
-    }   
+    }
+    
+    @Override
+    public void run(){
+        String line = null;
+        //Set line to a variable that is needed to be sent
+        sendMessage(line);
+    }
 }
