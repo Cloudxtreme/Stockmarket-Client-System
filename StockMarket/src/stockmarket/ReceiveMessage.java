@@ -21,14 +21,17 @@ public class ReceiveMessage extends Thread {
         }
     }
     
-    public void receiveMessage()
+    public String receiveMessage()
     {
         try{
-            System.out.println(in.readLine());
+            String received = in.readLine();
+            return received;
+            
         }
         catch (IOException ex)
         {
             System.out.println(ex);
+            return null;
         }
     }
     
