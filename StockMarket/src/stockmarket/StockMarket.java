@@ -10,10 +10,11 @@ public class StockMarket {
   
     public static void main(String[] args) {
        //Opens new form UI
-       new Form().setVisible(true);
+       Form form1 = new Form();
+       form1.setVisible(true);
 
        //Variables for Socket Constructor
-        String hostName = "192.168.0.212";
+        String hostName = "192.168.0.214";
         int portNumber = 5000;       
         
         //Create new Socket, SendMessage and ReceiveMessage objects
@@ -26,8 +27,8 @@ public class StockMarket {
         //new BufferedReader(
             //new InputStreamReader(System.in));
            
-    sendMessage.sendMessage("REGI");
-    receiveMessage.receiveMessage();
+    sendMessage.start();
+    receiveMessage.start();
         
         }
         catch (IOException ex)
@@ -35,7 +36,7 @@ public class StockMarket {
             System.out.println(ex);
         }
         
-        //Close the connection
+        /*Close the connection
         try{
             echoSocket.close();
         }
@@ -45,6 +46,6 @@ public class StockMarket {
                 System.out.println("Socket already closed");
             else
                 System.out.println(ex);
-        }
+        }*/
     }
 }
