@@ -21,17 +21,15 @@ public class ReceiveMessage extends Thread {
         }
     }
     
-    public String receiveMessage()
+    public void receiveMessage()
     {
         try{
             String received = in.readLine();
-            return received;
-            
+            Form.Received_txt.setText(received);
         }
         catch (IOException ex)
         {
             System.out.println(ex);
-            return null;
         }
     }
     

@@ -1,19 +1,36 @@
 package stockmarket;
 
-public class Form extends javax.swing.JFrame {
+import java.net.Socket;
+import java.io.*;
 
-    StockMarket stockMarket;
+public class Form extends javax.swing.JFrame {
     
-    /**
-     * Creates new form Form
-     */
+    //Create new read in string
+    public static String message = null;
+    //Create Socket instance
+    static Socket echoSocket;
     
-    String message = null;
+    //Variables for Socket Constructor
+        String hostName = "192.168.0.7";
+        int portNumber = 5000;
+        
+        //Objects created for send and receive classes
+        SendMessage sendMessage;
+        ReceiveMessage receiveMessage;
     
     public Form() {
         initComponents();
         
-        stockMarket = new StockMarket();
+        //Create new Socket, SendMessage and ReceiveMessage objects
+        try {
+            echoSocket = new Socket(hostName, portNumber);
+            sendMessage = new SendMessage(echoSocket);
+            receiveMessage = new ReceiveMessage(echoSocket);
+            receiveMessage.start();
+        }
+        catch (IOException ex){
+            System.out.println(ex);
+        }
     }
 
     /**
@@ -27,7 +44,7 @@ public class Form extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
-        jTextField1 = new javax.swing.JTextField();
+        Received_txt = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -37,10 +54,10 @@ public class Form extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(jTextPane1);
 
-        jTextField1.setText("jTextField1");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        Received_txt.setText("jTextField1");
+        Received_txt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                Received_txtActionPerformed(evt);
             }
         });
 
@@ -69,7 +86,7 @@ public class Form extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 513, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Received_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(305, 305, 305))
         );
         layout.setVerticalGroup(
@@ -79,7 +96,7 @@ public class Form extends javax.swing.JFrame {
                 .addComponent(jButton1)
                 .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Received_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(717, Short.MAX_VALUE))
         );
@@ -88,13 +105,13 @@ public class Form extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        message = jTextPane1.toString();
-        stockMarket.sendMessage(message);
+        message = jTextPane1.getText();
+        sendMessage.sendMessage(message);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    private void Received_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Received_txtActionPerformed
+
+    }//GEN-LAST:event_Received_txtActionPerformed
     
     /**
      * @param args the command line arguments
@@ -132,12 +149,12 @@ public class Form extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JTextField Received_txt;
     private javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
 }
