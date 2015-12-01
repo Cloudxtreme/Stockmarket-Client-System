@@ -25,7 +25,8 @@ public class ReceiveMessage extends Thread {
     {
         try{
             String received = in.readLine();
-            Form.Received_txt.setText(received);
+            if (!(received.equals("")|| received.equals(null)))
+                Form.jTextArea1.append(received + "\n");
         }
         catch (IOException ex)
         {
