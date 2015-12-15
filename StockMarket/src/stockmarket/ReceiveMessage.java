@@ -26,26 +26,21 @@ public class ReceiveMessage extends Thread {
     {
         try{
             String received = in.readLine();
-            if (!(received.equals("END:EOF")|| received.equals(null))){
-                Form.jTextArea1.append(received + "\n");
-                receivedData.append(received + " ");
-            }
             
-            Form.data = receivedData.toString();
-            
+            Form.jTextArea2.append(received + "\n");
         }
         
         catch (IOException ex)
         {
             System.out.println(ex);
         }
-        System.out.println(receivedData);
     }
     
     @Override
     public void run(){
         while(socket.isConnected() == true){
         receiveMessage();
+        
         if (socket.isConnected() == false)
         Form.jLabel3.setText("Not Connected");
         else
